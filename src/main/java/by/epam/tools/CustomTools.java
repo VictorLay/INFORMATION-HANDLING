@@ -20,18 +20,16 @@ public class CustomTools {
       indexOfStringStart = matcher.end();
     }
 
-
     if (indexOfStringStart != text.length()) {
       arrayOfSplitString.add(text.substring(indexOfStringStart));
     }
     arrayOfSplitString.remove(regex);
-    String response[]= new String[arrayOfSplitString.size()];
+    String response[] = new String[arrayOfSplitString.size()];
     for (int i = 0; i < arrayOfSplitString.size(); i++) {
       response[i] = arrayOfSplitString.get(i).trim();
     }
 
     return response;
-
 
 //    String response[];
 //    if (indexOfStringStart != text.length()) {
@@ -47,4 +45,12 @@ public class CustomTools {
 //
 //    return response;
   }
+
+  public String clearTheChars(String text, String[] removingStrings) {
+    for (String removingString : removingStrings) {
+      text = text.replace(removingString,"");
+    }
+    return text;
+  }
+
 }
