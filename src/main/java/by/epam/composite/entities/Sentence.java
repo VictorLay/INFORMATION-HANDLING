@@ -1,28 +1,32 @@
 package by.epam.composite.entities;
 
-import by.epam.tools.CustomTools;
+import by.epam.tools.CustomTextTools;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Sentence {
+public class Sentence extends BaseTextStructure{
   String sent;
   Logger log = LogManager.getLogger();
-  private List<Word> wordList;
+  private List<BaseTextStructure> wordList;
   String sentText="";
+
+  public Sentence(List<BaseTextStructure> wordList) {
+    this.wordList = wordList;
+  }
 
   public Sentence(String sentenceData) {
     wordList = new ArrayList<>();
-    setWordList(sentenceData);
+    setInstance(sentenceData);
 
 //    log.info(sent);
 
   }
 
-  public void setWordList(String sentenceData){
-    CustomTools tool = new CustomTools();
-    for (String singleWord : tool.customSplit(sentenceData,"\s")) { //"[\\s.]{1}([.]{2})?"
+  public void setInstance(String sentenceData){
+//    CustomTextTools tool = new CustomTextTools();
+    for (String singleWord : CustomTextTools.customSplit(sentenceData,"\s")) { //"[\\s.]{1}([.]{2})?"
 //      log.debug(singleWord);
       sentText += singleWord +"\n";
       wordList.add(new Word(singleWord));
@@ -31,7 +35,7 @@ public class Sentence {
   }
   public String getInstance() {
     StringBuilder sentence = new StringBuilder();
-    for(Word word: wordList){
+    for(BaseTextStructure word: wordList){
       sentence.append(word.getInstance()).append("\s");
     }
     return sentence.toString();

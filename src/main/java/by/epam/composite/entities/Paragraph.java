@@ -1,30 +1,34 @@
 package by.epam.composite.entities;
 
-import by.epam.tools.CustomTools;
+import by.epam.tools.CustomTextTools;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Paragraph {
+public class Paragraph extends BaseTextStructure{
 
   Logger log = LogManager.getLogger();
-  private List<Sentence> sentenceList;
+  private List<BaseTextStructure> sentenceList;
   //Test variable
   public String sentText ="";
 
   public Paragraph(String paragraph) {
     sentenceList = new ArrayList<>();
-    setSentenceList(paragraph);
+    setInstance(paragraph);
   }
 
-  public List<Sentence> getSentenceList() {
+  public Paragraph(List<BaseTextStructure> sentenceList) {
+    this.sentenceList = sentenceList;
+  }
+
+  public List<BaseTextStructure> getSentenceList() {
     return sentenceList;
   }
 
-  public void setSentenceList(String paragraphData) {
-    CustomTools tool = new CustomTools();
-    for (String singleSentence : tool.customSplit(paragraphData,"[.?!]([.]{2})?([\s\n])")) {
+  public void setInstance(String paragraphData) {
+//    CustomTextTools tool = new CustomTextTools();
+    for (String singleSentence : CustomTextTools.customSplit(paragraphData,"[.?!]([.]{2})?([\s\n])")) {
       sentText += singleSentence +"\n";
       sentenceList.add(new Sentence(singleSentence));
     }
@@ -34,7 +38,7 @@ public class Paragraph {
   public String getInstance(){
 
     StringBuilder paragraph = new StringBuilder();
-    for(Sentence sentence: sentenceList){
+    for(BaseTextStructure sentence: sentenceList){
       paragraph.append(sentence.getInstance());
     }
     return paragraph.toString();
