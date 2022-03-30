@@ -6,11 +6,13 @@ import java.util.regex.Pattern;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class CustomTools {
+public class CustomTextTools {
 
-  public String[] customSplit(String text, String regex) {
+  private CustomTextTools() {
+  }
 
-    Logger logger = LogManager.getLogger(CustomTools.class);
+  public static String[] customSplit(String text, String regex) {
+    Logger logger = LogManager.getLogger(CustomTextTools.class);
     Pattern pattern = Pattern.compile(regex);
     Matcher matcher = pattern.matcher(text);
     int indexOfStringStart = 0;
@@ -46,7 +48,7 @@ public class CustomTools {
 //    return response;
   }
 
-  public String clearTheChars(String text, String[] removingStrings) {
+  public static String clearTheChars(String text, String[] removingStrings) {
     for (String removingString : removingStrings) {
       text = text.replace(removingString,"");
     }
