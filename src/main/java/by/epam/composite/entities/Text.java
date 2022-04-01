@@ -1,49 +1,22 @@
 package by.epam.composite.entities;
 
-import by.epam.tools.CustomTextTools;
-import java.util.ArrayList;
 import java.util.List;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-public class Text extends BaseTextStructure{
-  private Logger log = LogManager.getLogger(Text.class);
-  private List<BaseTextStructure> paragraphList;
-
-  //Test variable
-  public String sentText ="";
-
-
-  public Text() {
-    paragraphList = new ArrayList<>();
-
-  }
-
-  public Text(String text) {
-    paragraphList = new ArrayList<>();
-    setInstance(text);
-  }
+public class Text extends BaseTextStructure {
 
   public Text(List<BaseTextStructure> paragraphList) {
-    this.paragraphList = paragraphList;
+    super.setChildNodes(paragraphList);
   }
 
-  public void setInstance(String textData) {
-//    CustomTextTools tool = new CustomTextTools();
-    for (String singleParagraph : CustomTextTools.customSplit(textData,"\t")) {
-      sentText += "\t" + singleParagraph +"\n";
-      paragraphList.add(new Paragraph(singleParagraph));
-    }
-  }
-
-
-  public String getInstance(){
-
+  @Override
+  public String toString() {
     StringBuilder text = new StringBuilder();
-
-    for(BaseTextStructure paragraph: paragraphList){
-      text.append("\t").append(paragraph.getInstance()).append("\n");
+    for (BaseTextStructure paragraph : super.getChildNodes()) {
+      text.append(paragraph);
     }
     return text.toString();
   }
 }
+
+//todo the all methods (which extended BaseStructure) have a same field "List<BaseStructure>"
+// replace this field to BaseStructure abstract class

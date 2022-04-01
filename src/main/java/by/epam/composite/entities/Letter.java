@@ -7,11 +7,8 @@ public class Letter extends BaseTextStructure{
     letter = letterData;
   }
 
-  public void setInstance(String letter) {
-    this.letter = letter.toCharArray()[0];
-  }
-
-  public String getInstance() {
+  @Override
+  public String toString() {
     return String.valueOf(letter);
   }
 }
