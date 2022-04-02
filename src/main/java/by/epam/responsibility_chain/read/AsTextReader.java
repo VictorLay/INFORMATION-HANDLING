@@ -1,4 +1,4 @@
-package by.epam.responsibility_chain.strchain;
+package by.epam.responsibility_chain.read;
 
 import by.epam.composite.entities.BaseTextStructure;
 
