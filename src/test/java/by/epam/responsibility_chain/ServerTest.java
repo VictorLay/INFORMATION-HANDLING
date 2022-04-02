@@ -15,6 +15,7 @@ import by.epam.responsibility_chain.strchain.AsTextReader;
 import by.epam.responsibility_chain.strchain.AsWordReader;
 import by.epam.responsibility_chain.workchain.GetAccessor;
 import by.epam.responsibility_chain.workchain.Visualization;
+import by.epam.tools.CustomTextTools;
 import org.junit.jupiter.api.Test;
 
 class ServerTest {
@@ -67,7 +68,9 @@ class ServerTest {
         .bindNextLink(new WordCreator()).bindNextLink(new LetterCreator());
 
     BaseTextStructure wordStructure = server.useCreatorChain(simpleParagraph);
-    String expectedToSting = simpleParagraph.replace("\s", "")
+    String[] excessStrings = {"\s","\t","\n"};
+    String expectedToSting = CustomTextTools.clearTheChars(simpleParagraph, excessStrings);
+    simpleParagraph.replace("\s", "")
         .replace("\t", "").replace("\n", "");
     String actualToString = wordStructure.toString();
 
