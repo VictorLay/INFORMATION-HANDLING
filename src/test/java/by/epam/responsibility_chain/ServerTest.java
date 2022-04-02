@@ -8,11 +8,12 @@ import by.epam.responsibility_chain.create.ParagraphCreator;
 import by.epam.responsibility_chain.create.SentenceCreator;
 import by.epam.responsibility_chain.create.TextCreator;
 import by.epam.responsibility_chain.create.WordCreator;
-import by.epam.responsibility_chain.strchain.AsLetterReader;
-import by.epam.responsibility_chain.strchain.AsParagraphReader;
-import by.epam.responsibility_chain.strchain.AsSentenceReader;
-import by.epam.responsibility_chain.strchain.AsTextReader;
-import by.epam.responsibility_chain.strchain.AsWordReader;
+import by.epam.responsibility_chain.read.AsLetterReader;
+import by.epam.responsibility_chain.read.AsParagraphReader;
+import by.epam.responsibility_chain.read.AsSentenceReader;
+import by.epam.responsibility_chain.read.AsTextReader;
+import by.epam.responsibility_chain.read.AsWordReader;
+import by.epam.responsibility_chain.read.NodeByChildrenNodesQuantitySorter;
 import by.epam.responsibility_chain.workchain.GetAccessor;
 import by.epam.responsibility_chain.workchain.Visualization;
 import by.epam.tools.CustomTextTools;
@@ -110,6 +111,44 @@ class ServerTest {
 
 //    Logger log = LogManager.getLogger();
 //    log.debug("\n" + textStructure);
+  }
+
+  @Test
+  void convertToTreeReturnStringWithSortedParagraphsBySentencesQuantity() {
+    Server server = new Server();
+    server.setAbstractCreator(new TextCreator()).bindNextLink(new ParagraphCreator())
+        .bindNextLink(new SentenceCreator()).bindNextLink(new WordCreator())
+        .bindNextLink(new LetterCreator());
+
+    server.setAbstractReceiver(new NodeByChildrenNodesQuantitySorter()).bindNextLink(new AsParagraphReader())
+        .bindNextLink(new AsSentenceReader()).bindNextLink(new AsWordReader())
+        .bindNextLink(new AsLetterReader());
+
+    BaseTextStructure textStructure = server.useCreatorChain(simpleText);
+    String actual = server.useReaderChain(textStructure);
+    String expected =
+        "Отсортировано по количеству childrenNodes элементов:\n" +
+            "\tIt is a long a!=b established fact that a reader will be distracted by the readable "
+            + "content of a page when looking at its layout. The point of using Ipsum is that it has a "
+            + "more-or-less normal distribution ob.toString(a?b:c), as opposed to using (Content here), "
+            + "content here's, making it look like readable English? Так погибают замыслы с размахом! \n"
+            +
+            "\tIt has survived - not only (five) centuries, but also the leap into electronic "
+            + "typesetting, remaining essentially unchanged. It was popularised in the “Динамо” (Рига) "
+            + "with the release of Letraset sheets.toString() containing Lorem Ipsum passages, and "
+            + "more recently with desktop publishing software like Aldus PageMaker Faclon9 including "
+            + "versions of Lorem Ipsum! \n"
+
+            + "\tIt is a established fact that a reader will be of a page when looking at its layout... \n"
+            + "\tBye бандерлоги.\s";
+    assertEquals(expected, actual);
+    server = new Server();
+    server.setAbstractReceiver(new AsTextReader()).bindNextLink(new AsParagraphReader())
+        .bindNextLink(new AsSentenceReader()).bindNextLink(new AsWordReader())
+        .bindNextLink(new AsLetterReader());
+    String exceptedText = "\n"+simpleText;
+    String actualText = server.useReaderChain(textStructure) + "\n";
+    assertEquals(exceptedText, actualText);
   }
 
 
