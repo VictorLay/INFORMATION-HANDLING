@@ -1,24 +1,42 @@
 package by.epam.responsibility_chain;
 
 import by.epam.composite.entities.BaseTextStructure;
-import by.epam.responsibility_chain.middleware.*;
+import by.epam.responsibility_chain.create.*;
+import by.epam.responsibility_chain.strchain.AbstractReader;
+import by.epam.responsibility_chain.workchain.AbstractWorker;
 
 
 public class Server {
 
-  private AbstractInstaller abstractInstaller;
+  private AbstractCreator abstractCreator;
+  private AbstractWorker abstractWorker;
+  private AbstractReader abstractReader;
 
-  public Server() {
+  public AbstractCreator setAbstractCreator(AbstractCreator abstractCreator) {
+    this.abstractCreator = abstractCreator;
+    return this.abstractCreator;
   }
 
-  public AbstractInstaller setAbstractInstaller(AbstractInstaller abstractInstaller) {
-    this.abstractInstaller = abstractInstaller;
-    return this.abstractInstaller;
+  public AbstractReader setAbstractReceiver(AbstractReader abstractReader) {
+    this.abstractReader = abstractReader;
+    return this.abstractReader;
   }
 
-  public BaseTextStructure convertToTree(String textData){
-    return abstractInstaller.doSomethingWithThisShit(textData);
+  public AbstractWorker setAbstractWorker(AbstractWorker abstractWorker) {
+    this.abstractWorker = abstractWorker;
+    return this.abstractWorker;
   }
 
+  public BaseTextStructure useCreatorChain(String textData){
+    return abstractCreator.doSomething(textData);
+  }
+
+  public BaseTextStructure chainAccessTestMethod(BaseTextStructure structure){
+    return abstractWorker.doSomething(structure);
+  }
+
+  public String useReaderChain(BaseTextStructure textStructure){
+    return abstractReader.doSomething(textStructure);
+  }
 
 }
