@@ -8,7 +8,7 @@ public class SentenceWithLongestWordFinder extends AbstractUpdater {
 
   /**
    * Usage with {@link MostChildrenQuantityFinder#doSomething(BaseTextStructure)}
-   * compare the longest words of sentences and return sentence with longest
+   * compare the longest words of sentences and return sentence with the longest
    * words as {@link  TextStructureNode} object.
    */
   @Override
