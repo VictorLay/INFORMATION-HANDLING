@@ -27,24 +27,29 @@ public class BiteExpressionCalculator {
 
   private static String solve(String str) {
 
-    //todo to separate operator to String value and refactor if-logic to switch
-    // the next step it is switch refactoring
+    //todo the next step it is switch refactoring
 
-    if (str.contains("<<")) {
-      Context context = new Context(str.split("<<")[0], str.split("<<")[1]);
-      FuncExpression leftShiftExpr = (cont) -> String.valueOf(
-          Integer.parseInt(cont.getLeftOperand()) << Integer.parseInt(cont.getRightOperand()));
-      return leftShiftExpr.interpret(context);
+    Pattern pattern = Pattern.compile("\\D+");
+    Matcher matcher = pattern.matcher(str);
+    matcher.find();
+    String operator = str.substring(matcher.start(), matcher.end());
+    Context context;
+
+    switch (operator){
+      case "<<":
+        context = new Context(str.split("<<")[0], str.split("<<")[1]);
+        Expression leftShiftExpr = (cont) -> String.valueOf(
+            Integer.parseInt(cont.getLeftOperand()) << Integer.parseInt(cont.getRightOperand()));
+        return leftShiftExpr.interpret(context);
+      case ">>":
+        context = new Context(str.split(">>")[0], str.split(">>")[1]);
+        Expression rightShiftExpr = (cont) -> String.valueOf(
+            Integer.parseInt(cont.getLeftOperand()) >> Integer.parseInt(cont.getRightOperand()));
+        return rightShiftExpr.interpret(context);
     }
 
-    if (str.contains(">>")) {
-      Context context = new Context(str.split(">>")[0], str.split(">>")[1]);
-      FuncExpression rightShiftExpr = (cont) -> String.valueOf(
-          Integer.parseInt(cont.getLeftOperand()) >> Integer.parseInt(cont.getRightOperand()));
-      return rightShiftExpr.interpret(context);
-    }
 
-    return null;
+    return "";
   }
 
 }
