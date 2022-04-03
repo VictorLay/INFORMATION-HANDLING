@@ -76,5 +76,35 @@ class BiteExpressionCalculatorTest {
     assertEquals(expectedText, actualText);
   }
 
+  @Test
+  void calculateExpandBracketsTest() {
+    BiteExpressionCalculator calculator = new BiteExpressionCalculator();
+    String originalText = "word1 (36524) word2";
+    String expectedText = "word1 36524 word2";
+    String actualText = calculator.expandBrackets(originalText);
+
+    assertEquals(expectedText, actualText);
+  }
+
+  @Test
+  void calculateTryToExpandBracketsOfExpressionExpectedNoAction() {
+    BiteExpressionCalculator calculator = new BiteExpressionCalculator();
+    String originalText = "word1 (365>>24) word2";
+    String expectedText = "word1 (365>>24) word2";
+    String actualText = calculator.expandBrackets(originalText);
+
+    assertEquals(expectedText, actualText);
+  }
+
+  @Test
+  void calculateCombinedExpressionWithFewOperatorsAndBrace() {
+    BiteExpressionCalculator calculator = new BiteExpressionCalculator();
+    String originalText = "word1 365>>(2<<4) word2";
+    String expectedText = "word1 " + (365>>(2<<4)) + " word2";
+    String actualText = calculator.calculate(originalText);
+
+    assertEquals(expectedText, actualText);
+  }
+
 
 }
