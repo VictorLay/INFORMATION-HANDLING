@@ -23,6 +23,26 @@ public class BiteExpressionCalculator {
       isHaveOperator = pattern.matcher(text).find();
     }
 
+    if (text.equals(expandBrackets(text))){
+      return text;
+    }else {
+      return calculate(expandBrackets(text));
+    }
+  }
+
+  public String expandBrackets(String text) {
+    Pattern pattern = Pattern.compile("[(]\\d+[)]");
+    boolean isHaveOperator = pattern.matcher(text).find();
+    while (isHaveOperator) {
+      Matcher matcher = pattern.matcher(text);
+      matcher.find();
+
+      text = text.replace(text.substring(matcher.start(), matcher.end()),
+          text.substring(matcher.start() + 1, matcher.end() - 1));
+
+      isHaveOperator = pattern.matcher(text).find();
+    }
+
     return text;
   }
 
