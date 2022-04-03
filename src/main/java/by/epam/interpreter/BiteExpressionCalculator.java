@@ -6,6 +6,8 @@ import java.util.regex.Pattern;
 public class BiteExpressionCalculator {
 
   public static final String REGEXP_OF_OPERATORS_FOR_SEARCHING = "(\\d+[>]{2}\\d+)|(\\d+[<]{2}\\d+)";
+  public static final String LEFT_SHIFT_OPERATOR = "<<";
+  public static final String RIGHT_SHIFT_OPERATOR = ">>";
 
   public String calculate(String text) {
 
@@ -25,29 +27,35 @@ public class BiteExpressionCalculator {
     return text;
   }
 
-  private static String solve(String str) {
+  private static String solve(String simpleBinaryExpression) {
 
     //todo the next step it is switch refactoring
 
     Pattern pattern = Pattern.compile("\\D+");
-    Matcher matcher = pattern.matcher(str);
-    matcher.find();
-    String operator = str.substring(matcher.start(), matcher.end());
+    Matcher matcher = pattern.matcher(simpleBinaryExpression);
+
+    if (matcher.find()){
+      //todo throw some exception or error log
+      return simpleBinaryExpression;
+    }
+
+    String operator = simpleBinaryExpression.substring(matcher.start(), matcher.end());
     Context context;
 
-    switch (operator){
-      case "<<":
-        context = new Context(str.split("<<")[0], str.split("<<")[1]);
+    switch (operator) {
+      case LEFT_SHIFT_OPERATOR:
+        context = new Context(simpleBinaryExpression.split(LEFT_SHIFT_OPERATOR)[0],
+            simpleBinaryExpression.split(LEFT_SHIFT_OPERATOR)[1]);
         Expression leftShiftExpr = (cont) -> String.valueOf(
             Integer.parseInt(cont.getLeftOperand()) << Integer.parseInt(cont.getRightOperand()));
         return leftShiftExpr.interpret(context);
-      case ">>":
-        context = new Context(str.split(">>")[0], str.split(">>")[1]);
+      case RIGHT_SHIFT_OPERATOR:
+        context = new Context(simpleBinaryExpression.split(RIGHT_SHIFT_OPERATOR)[0],
+            simpleBinaryExpression.split(RIGHT_SHIFT_OPERATOR)[1]);
         Expression rightShiftExpr = (cont) -> String.valueOf(
             Integer.parseInt(cont.getLeftOperand()) >> Integer.parseInt(cont.getRightOperand()));
         return rightShiftExpr.interpret(context);
     }
-
 
     return "";
   }
