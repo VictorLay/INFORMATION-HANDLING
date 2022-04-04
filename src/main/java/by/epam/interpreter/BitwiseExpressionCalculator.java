@@ -4,9 +4,17 @@ import by.epam.interpreter.controller.Controller;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class BiteExpressionCalculator {
+public class BitwiseExpressionCalculator {
 
-  public static final String REGEXP_OF_OPERATORS_FOR_SEARCHING = "(\\d+[>]{2}\\d+)|(\\d+[<]{2}\\d+)";
+  public static final String REGEXP_OF_NOT_OPERATOR = "~[-+]?\\d+";
+  public static final String REGEXP_OF_AND_OPERATOR = "[+-]?\\d+&[+-]?\\d+";
+  public static final String REGEXP_OF_RIGHT_SHIFT_OPERATOR = "([+-]?\\d+[>]{2}[+-]?\\d+)";
+  public static final String REGEXP_OF_LEFT_SHIFT_OPERATOR = "([+-]?\\d+[<]{2}[+-]?\\d+)";
+
+  public static final String REGEXP_OF_OPERATORS_FOR_SEARCHING =
+      REGEXP_OF_LEFT_SHIFT_OPERATOR + "|" + REGEXP_OF_RIGHT_SHIFT_OPERATOR + "|"
+          + REGEXP_OF_NOT_OPERATOR + "|" + REGEXP_OF_AND_OPERATOR;
+
 
   public String calculate(String text) {
     Controller controller = new Controller();
@@ -23,15 +31,15 @@ public class BiteExpressionCalculator {
       isHaveOperator = pattern.matcher(text).find();
     }
 
-    if (text.equals(expandBrackets(text))){
+    if (text.equals(expandBrackets(text))) {
       return text;
-    }else {
+    } else {
       return calculate(expandBrackets(text));
     }
   }
 
   public String expandBrackets(String text) {
-    Pattern pattern = Pattern.compile("[(]\\d+[)]");
+    Pattern pattern = Pattern.compile("[(][+-]?\\d+[)]");
     boolean isHaveOperator = pattern.matcher(text).find();
     while (isHaveOperator) {
       Matcher matcher = pattern.matcher(text);
