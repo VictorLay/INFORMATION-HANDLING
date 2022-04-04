@@ -13,7 +13,8 @@ public final class Controller {
 
   public String executeSimpleExpression(String simpleBinaryExpression) {
 
-    Pattern pattern = Pattern.compile("\\D+");
+//    Pattern pattern = Pattern.compile("\\D+");
+    Pattern pattern = Pattern.compile("[^-+0-9]+");
     Matcher operatorFinder = pattern.matcher(simpleBinaryExpression);
     operatorFinder.find();
     String operator = simpleBinaryExpression.substring(operatorFinder.start(),
