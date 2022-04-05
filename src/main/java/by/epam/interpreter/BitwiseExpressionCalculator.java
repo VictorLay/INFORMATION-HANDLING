@@ -8,12 +8,15 @@ public class BitwiseExpressionCalculator {
 
   public static final String REGEXP_OF_NOT_OPERATOR = "~[-+]?\\d+";
   public static final String REGEXP_OF_AND_OPERATOR = "[+-]?\\d+&[+-]?\\d+";
+  public static final String REGEXP_OF_OR_OPERATOR = "[+-]?\\d+\\|[+-]?\\d+";
+  public static final String REGEXP_OF_XOR_OPERATOR = "[+-]?\\d+\\^[+-]?\\d+";
   public static final String REGEXP_OF_RIGHT_SHIFT_OPERATOR = "([+-]?\\d+[>]{2}[+-]?\\d+)";
   public static final String REGEXP_OF_LEFT_SHIFT_OPERATOR = "([+-]?\\d+[<]{2}[+-]?\\d+)";
 
   public static final String REGEXP_OF_OPERATORS_FOR_SEARCHING =
       REGEXP_OF_LEFT_SHIFT_OPERATOR + "|" + REGEXP_OF_RIGHT_SHIFT_OPERATOR + "|"
-          + REGEXP_OF_NOT_OPERATOR + "|" + REGEXP_OF_AND_OPERATOR;
+          + REGEXP_OF_NOT_OPERATOR + "|" + REGEXP_OF_AND_OPERATOR + "|" + REGEXP_OF_XOR_OPERATOR
+          + "|" + REGEXP_OF_OR_OPERATOR;
 
 
   public String calculate(String text) {
