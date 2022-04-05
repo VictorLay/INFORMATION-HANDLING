@@ -1,11 +1,30 @@
 package by.epam.responsibility_chain.read;
 
 import by.epam.composite.entities.BaseTextStructure;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
-public class NodeByChildrenNodesQuantitySorter extends AbstractReader{
+public class ParagraphsSorter extends AbstractReader {
 
+  @Override
+  public String doSomething(BaseTextStructure dataTxt) {
+    return dataTxt.getChildNodes().stream().sorted(new NodeComparator())
+        .map(x -> nextDoSomething(x)).collect(Collectors.joining());
+  }
+
+  private static final class NodeComparator implements Comparator<BaseTextStructure> {
+
+    @Override
+    public int compare(BaseTextStructure structure, BaseTextStructure otherStructure) {
+
+      return otherStructure.getChildNodes().size() - structure.getChildNodes().size();
+    }
+  }
+}
+
+
+/*
+ was left old variant
   @Override
   public String doSomething(BaseTextStructure dataTxt) {
     List<BaseTextStructure> paragraphs = dataTxt.getChildNodes();
@@ -30,4 +49,4 @@ public class NodeByChildrenNodesQuantitySorter extends AbstractReader{
 
     return builder.toString();
   }
-}
+    */
