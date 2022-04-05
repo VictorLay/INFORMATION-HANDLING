@@ -2,6 +2,7 @@ package by.epam.interpreter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import by.epam.interpreter.controller.command.impl.BitwiseOr;
 import org.junit.jupiter.api.Test;
 
 class BitwiseExpressionCalculatorTest {
@@ -130,7 +131,7 @@ class BitwiseExpressionCalculatorTest {
   void calculateExpandBracketsTestWithNegativeOperand() {
     BitwiseExpressionCalculator calculator = new BitwiseExpressionCalculator();
     String originalText = "word1 (-36524) word2";
-    String expectedText = "word1 (-36524) word2";
+    String expectedText = "word1 -36524 word2";
     String actualText = calculator.expandBrackets(originalText);
 
     assertEquals(expectedText, actualText);
@@ -187,10 +188,10 @@ class BitwiseExpressionCalculatorTest {
   }
 
   @Test
-  void calculateBitwiseANDExpression() {
+  void calculateBitwiseXORExpression() {
     BitwiseExpressionCalculator calculator = new BitwiseExpressionCalculator();
-    String originalText = "word1 15&17 word2";
-    String expectedText = "word1 " + (15 & 17) + " word2";
+    String originalText = "word1 15^17 word2";
+    String expectedText = "word1 " + (15 ^ 17) + " word2";
     String actualText = calculator.calculate(originalText);
 
     assertEquals(expectedText, actualText);
@@ -198,34 +199,117 @@ class BitwiseExpressionCalculatorTest {
   }
 
   @Test
-  void calculateBitwiseANDExpressionWithLeftNegativeOperand() {
+  void calculateBitwiseXORExpressionWithLeftNegativeOperand() {
     BitwiseExpressionCalculator calculator = new BitwiseExpressionCalculator();
-    String originalText = "word1 -15&17 word2";
-    String expectedText = "word1 " + (-15 & 17) + " word2";
+    String originalText = "word1 -15^17 word2";
+    String expectedText = "word1 " + (-15 ^ 17) + " word2";
     String actualText = calculator.calculate(originalText);
 
     assertEquals(expectedText, actualText);
   }
 
   @Test
-  void calculateBitwiseANDExpressionWithRightNegativeOperand() {
+  void calculateBitwiseXORExpressionWithRightNegativeOperand() {
     BitwiseExpressionCalculator calculator = new BitwiseExpressionCalculator();
-    String originalText = "word1 15&-17 word2";
-    String expectedText = "word1 " + (15 & -17) + " word2";
+    String originalText = "word1 15^-17 word2";
+    String expectedText = "word1 " + (15 ^ -17) + " word2";
     String actualText = calculator.calculate(originalText);
 
     assertEquals(expectedText, actualText);
   }
 
   @Test
-  void calculateBitwiseANDExpressionWithBrackets() {
+  void calculateBitwiseXORExpressionWithBrackets() {
     BitwiseExpressionCalculator calculator = new BitwiseExpressionCalculator();
-    String originalText = "word1 6&(15&-17) word2";
-    String expectedText = "word1 " + (6 & (15 & -17)) + " word2";
+    String originalText = "word1 6^(15^-17) word2";
+    String expectedText = "word1 " + (6 ^ (15 ^ -17)) + " word2";
     String actualText = calculator.calculate(originalText);
 
     assertEquals(expectedText, actualText);
   }
+
+  @Test
+  void calculateBitwiseORExpression() {
+    BitwiseExpressionCalculator calculator = new BitwiseExpressionCalculator();
+    String originalText = "word1 15|17 word2";
+    String expectedText = "word1 " + (15 | 17) + " word2";
+    String actualText = calculator.calculate(originalText);
+
+    assertEquals(expectedText, actualText);
+
+  }
+
+  @Test
+  void calculateBitwiseORExpressionWithLeftNegativeOperand() {
+    BitwiseExpressionCalculator calculator = new BitwiseExpressionCalculator();
+    String originalText = "word1 -15|17 word2";
+    String expectedText = "word1 " + (-15 | 17) + " word2";
+    String actualText = calculator.calculate(originalText);
+
+    assertEquals(expectedText, actualText);
+  }
+
+  @Test
+  void calculateBitwiseORExpressionWithRightNegativeOperand() {
+    BitwiseExpressionCalculator calculator = new BitwiseExpressionCalculator();
+    String originalText = "word1 15|-17 word2";
+    String expectedText = "word1 " + (15 | -17) + " word2";
+    String actualText = calculator.calculate(originalText);
+
+    assertEquals(expectedText, actualText);
+  }
+
+  @Test
+  void calculateBitwiseORExpressionWithBrackets() {
+    BitwiseExpressionCalculator calculator = new BitwiseExpressionCalculator();
+    String originalText = "word1 6|(15|-17) word2";
+    String expectedText = "word1 " + (6 | (15 | -17)) + " word2";
+    String actualText = calculator.calculate(originalText);
+
+    assertEquals(expectedText, actualText);
+  }
+
+
+  /**
+   * This test use bracket for choice priority of operations. The method calculate unsupported
+   * priority of operators but support "()" define of priority.
+   */
+  @Test
+  void calculateBitwiseExpressionWithBrackets() {
+    BitwiseExpressionCalculator calculator = new BitwiseExpressionCalculator();
+    String originalText = "word1 ((7^5|1&2)<<((2|5)>>(2&71)))|1200 word2";
+    String expectedText = "word1 " + (((7^5|1&2)<<((2|5)>>(2&71)))|1200) + " word2";
+    String actualText = calculator.calculate(originalText);
+
+    assertEquals(expectedText, actualText);
+  }
+
+
+  @Test
+  void calculateBitwiseExpressionWithoutBrackets() {
+    BitwiseExpressionCalculator calculator = new BitwiseExpressionCalculator();
+    String originalText = "word1 7^5|1&2<<2|5>>2&71|1200 word2";
+    String expectedText = "word1 " + (7^5|1&2<<2|5>>2&71|1200) + " word2";
+    String actualText = calculator.calculate(originalText);
+
+    assertEquals(expectedText, actualText);
+  }
+
+
+  /**
+   * The method calculate unsupported priority of operators but support "()" define of priority.
+   */
+  @Test
+  void calculateBitwiseExpressionWithoutBrackets2() {
+    BitwiseExpressionCalculator calculator = new BitwiseExpressionCalculator();
+    String originalText = "word1 (7^5|1&2<<(2|5>>2&71))|1200 word2";
+    String expectedText = "word1 " + ((7^5|1&2<<(2|5>>2&71))|1200) + " word2";
+    String actualText = calculator.calculate(originalText);
+
+    assertEquals(expectedText, actualText);
+  }
+
+
 
 
 }
