@@ -8,8 +8,13 @@ public class AsTextReader extends AbstractReader {
   public String doSomething(BaseTextStructure textStructure) {
     StringBuilder textBuilder = new StringBuilder();
 
-    for (BaseTextStructure paragraphStructure : textStructure.getChildNodes()) {
-      textBuilder.append(nextDoSomething(paragraphStructure));
+    for (int i = 0; i < textStructure.getChildNodes().size(); ) {
+      if (textStructure.getChildNodes().get(i).getChildNodes().isEmpty()) {
+        textStructure.getChildNodes().remove(i);
+        continue;
+      }
+      textBuilder.append(nextDoSomething(textStructure.getChildNodes().get(i)));
+      i++;
     }
 
     return textBuilder.toString();
