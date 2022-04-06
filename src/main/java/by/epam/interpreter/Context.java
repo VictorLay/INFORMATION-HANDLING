@@ -18,4 +18,12 @@ public class Context {
   public String getRightOperand() {
     return rightOperand;
   }
+
+  public void setLeftOperand(String leftOperand) {
+    this.leftOperand = leftOperand;
+  }
+
+  public void setRightOperand(String rightOperand) {
+    this.rightOperand = rightOperand;
+  }
 }

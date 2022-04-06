@@ -13,14 +13,14 @@ public abstract class AbstractUpdater {
     return next;
   }
 
-  public abstract BaseTextStructure doSomething(BaseTextStructure dataTxt);
+  public abstract BaseTextStructure doSomething(BaseTextStructure textStructure);
 
-  public BaseTextStructure nextDoSomething(BaseTextStructure dataTxt) throws Exception {
+  public BaseTextStructure nextDoSomething(BaseTextStructure textStructure) throws Exception {
     if (next == null) {
       Logger log = LogManager.getLogger();
       log.error("The error is possible. The method 'nextDoSomething' return the null value");
       throw new Exception("Attempt to calling unidentified next-chain-element");
     }
-    return next.doSomething(dataTxt);
+    return next.doSomething(textStructure);
   }
 }

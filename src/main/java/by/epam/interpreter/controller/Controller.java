@@ -13,11 +13,12 @@ public final class Controller {
 
   private static final int ONE_OPERAND = 1;
   private static final int TWO_OPERANDS = 2;
+  private static final String EXPECT_SIGN_NUMBERS = "[^-+0-9]+";
   private final CommandProvider provider = new CommandProvider();
 
   public String executeSimpleExpression(String simpleBinaryExpression) {
 
-    Pattern pattern = Pattern.compile("[^-+0-9]+");
+    Pattern pattern = Pattern.compile(EXPECT_SIGN_NUMBERS);
     Matcher operatorFinder = pattern.matcher(simpleBinaryExpression);
     operatorFinder.find();
     String operator = simpleBinaryExpression.substring(operatorFinder.start(),
@@ -31,8 +32,7 @@ public final class Controller {
             StringUtils.split(simpleBinaryExpression, operator)[1]);
         break;
       case ONE_OPERAND:
-        context = new Context("",
-            StringUtils.split(simpleBinaryExpression, operator)[0]);
+        context = new Context("", StringUtils.split(simpleBinaryExpression, operator)[0]);
         break;
       default:
         context = new Context("", "");

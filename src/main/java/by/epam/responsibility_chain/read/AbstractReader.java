@@ -13,14 +13,14 @@ public abstract class AbstractReader {
     return next;
   }
 
-  public abstract String doSomething(BaseTextStructure data);
+  public abstract String doSomething(BaseTextStructure textStructure);
 
-  public String nextDoSomething(BaseTextStructure data) {
+  public String nextDoSomething(BaseTextStructure textStructure) {
     if (next == null) {
       Logger log = LogManager.getLogger();
       log.error("The error is possible. The method 'nextDoSomething' return the empty value");
       return "";
     }
-    return next.doSomething(data);
+    return next.doSomething(textStructure);
   }
 }

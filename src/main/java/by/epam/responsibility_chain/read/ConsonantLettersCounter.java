@@ -3,12 +3,17 @@ package by.epam.responsibility_chain.read;
 import by.epam.composite.entities.BaseTextStructure;
 import java.util.Locale;
 
-public class ConsonantLettersCounter extends AbstractReader{
+public class ConsonantLettersCounter extends AbstractReader {
+
+  private static final String CONSONANT_LETTERS = "[BCDFGHJKLMNPQRSTVWXZ]";
 
   @Override
-  public String doSomething(BaseTextStructure data) {
-    return String.valueOf(data.getChildNodes().stream().flatMap(p -> p.getChildNodes().stream())
-        .flatMap(s -> s.getChildNodes().stream()).flatMap(w -> w.getChildNodes().stream())
-        .filter(x -> x.toString().toUpperCase(Locale.ROOT).matches("[BCDFGHJKLMNPQRSTVWXZ]")).count());
+  public String doSomething(BaseTextStructure textStructure) {
+    return String.valueOf(textStructure.getChildNodes().stream()
+        .flatMap(paragraphStructure -> paragraphStructure.getChildNodes().stream())
+        .flatMap(sentenceStructure -> sentenceStructure.getChildNodes().stream())
+        .flatMap(wordStructure -> wordStructure.getChildNodes().stream())
+        .filter(letterStructure -> letterStructure.toString().toUpperCase(Locale.ROOT)
+        .matches(CONSONANT_LETTERS)).count());
   }
 }

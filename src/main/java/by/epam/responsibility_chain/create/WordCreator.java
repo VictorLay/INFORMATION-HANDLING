@@ -9,16 +9,16 @@ public class WordCreator extends AbstractCreator {
 
   @Override
   public BaseTextStructure doSomething(String wordData) {
-    List<BaseTextStructure> letters = new ArrayList<>();
+    List<BaseTextStructure> lettersStructure = new ArrayList<>();
     BaseTextStructure wordStructure = new TextStructureNode();
 
     for (char singleLetter : wordData.toCharArray()) {
       BaseTextStructure letterStructure = nextDoSomething(String.valueOf(singleLetter));
       letterStructure.setFatherNode(wordStructure);
-      letters.add(letterStructure);
+      lettersStructure.add(letterStructure);
     }
 
-    wordStructure.setChildNodes(letters);
+    wordStructure.setChildNodes(lettersStructure);
     return wordStructure;
   }
 }

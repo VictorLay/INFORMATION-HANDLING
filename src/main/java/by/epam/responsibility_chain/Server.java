@@ -27,19 +27,19 @@ public class Server {
     return this.abstractUpdater;
   }
 
-  public BaseTextStructure useCreatorChain(String textData){
+  public BaseTextStructure useCreatorChain(String textData) {
     return abstractCreator.doSomething(textData);
   }
 
-  public BaseTextStructure useAbstractUpdater(BaseTextStructure structure){
+  public BaseTextStructure useAbstractUpdater(BaseTextStructure structure) {
     return abstractUpdater.doSomething(structure);
   }
 
-  public String useReaderChain(BaseTextStructure textStructure){
+  public String useReaderChain(BaseTextStructure textStructure) {
     return abstractReader.doSomething(textStructure);
   }
 
-  public void removeAll(){
+  public void removeAll() {
     abstractReader = null;
     abstractCreator = null;
     abstractUpdater = null;

@@ -8,19 +8,20 @@ import java.util.List;
 
 public class ParagraphCreator extends AbstractCreator {
 
+  private static final String SENTENCE_DELIMITERS = "[.?!]([.]{2})?([\s\n])";
+
   @Override
   public BaseTextStructure doSomething(String paragraphData) {
-    List<BaseTextStructure> sentences = new ArrayList<>();
-    BaseTextStructure paragraphStructure = new TextStructureNode();
+    List<BaseTextStructure> sentencesStructure = new ArrayList<>();
+    BaseTextStructure paragraphStructures = new TextStructureNode();
 
-    for (String singleSentence : CustomTextTools.customSplit(paragraphData,
-        "[.?!]([.]{2})?([\s\n])")) {
+    for (String singleSentence : CustomTextTools.customSplit(paragraphData, SENTENCE_DELIMITERS)) {
       BaseTextStructure sentenceStructure = nextDoSomething(singleSentence);
-      sentenceStructure.setFatherNode(paragraphStructure);
-      sentences.add(sentenceStructure);
+      sentenceStructure.setFatherNode(paragraphStructures);
+      sentencesStructure.add(sentenceStructure);
     }
 
-    paragraphStructure.setChildNodes(sentences);
-    return paragraphStructure;
+    paragraphStructures.setChildNodes(sentencesStructure);
+    return paragraphStructures;
   }
 }

@@ -8,18 +8,20 @@ import java.util.List;
 
 public class SentenceCreator extends AbstractCreator {
 
+  private static final String WORD_DELIMITER = "\s";
+
   @Override
   public BaseTextStructure doSomething(String sentenceData) {
-    List<BaseTextStructure> words = new ArrayList<>();
+    List<BaseTextStructure> wordsStructure = new ArrayList<>();
     BaseTextStructure sentenceStructure = new TextStructureNode();
 
-    for (String singleWord : CustomTextTools.customSplit(sentenceData, "\s")) {
+    for (String singleWord : CustomTextTools.customSplit(sentenceData, WORD_DELIMITER)) {
       BaseTextStructure wordStructure = nextDoSomething(singleWord);
       wordStructure.setFatherNode(sentenceStructure);
-      words.add(wordStructure);
+      wordsStructure.add(wordStructure);
     }
 
-    sentenceStructure.setChildNodes(words);
+    sentenceStructure.setChildNodes(wordsStructure);
     return sentenceStructure;
   }
 }

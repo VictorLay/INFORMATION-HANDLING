@@ -8,18 +8,20 @@ import java.util.List;
 
 public class TextCreator extends AbstractCreator {
 
+  private static final String PARAGRAPH_DELIMITER = "\t";
+
   @Override
   public BaseTextStructure doSomething(String textData) {
-    List<BaseTextStructure> paragraphs = new ArrayList<>();
+    List<BaseTextStructure> paragraphsStructure = new ArrayList<>();
     BaseTextStructure textStructure = new TextStructureNode();
 
-    for (String singleParagraph : CustomTextTools.customSplit(textData, "\t")) {
+    for (String singleParagraph : CustomTextTools.customSplit(textData, PARAGRAPH_DELIMITER)) {
       BaseTextStructure paragraphStructure = nextDoSomething(singleParagraph);
       paragraphStructure.setFatherNode(textStructure);
-      paragraphs.add(paragraphStructure);
+      paragraphsStructure.add(paragraphStructure);
     }
 
-    textStructure.setChildNodes(paragraphs);
+    textStructure.setChildNodes(paragraphsStructure);
     return textStructure;
   }
 }

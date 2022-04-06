@@ -9,11 +9,14 @@ import org.jetbrains.annotations.NotNull;
 
 public class UniqueWordsCounter extends AbstractReader {
 
+  private static final String NOT_A_LETTER_SYMBOL = "([.,?!]\\B)|(\\(|\\))|(\\A-\\Z)|“|”";
+  private static final String EXCLUDE_AN_EXPRESSION_SYMBOL = "[^.:?!=]+";
+
   @Override
-  public String doSomething(BaseTextStructure data) {
+  public String doSomething(BaseTextStructure textStructure) {
     StringBuilder countedWordsStringResponse = new StringBuilder();
 
-    for (String countedWord : countUniqueWordsInList(separateSingleWords(data))){
+    for (String countedWord : countUniqueWordsInList(separateSingleWords(textStructure))) {
       countedWordsStringResponse.append(countedWord);
     }
     return countedWordsStringResponse.toString();
@@ -24,8 +27,8 @@ public class UniqueWordsCounter extends AbstractReader {
     List<String> countedWordsList = new ArrayList<>();
     for (int i = 0; i < words.size(); ) {
       String word = words.get(i);
-      countedWordsList.add("{" + word + ":" + words.stream().filter(x -> x.equals(word)).count()
-          + "}\s");
+      countedWordsList.add(
+          "{" + word + ":" + words.stream().filter(x -> x.equals(word)).count() + "}\s");
       words = words.stream().filter(x -> !(x.equals(word))).collect(Collectors.toList());
       i = 0;
     }
@@ -33,11 +36,13 @@ public class UniqueWordsCounter extends AbstractReader {
   }
 
   @NotNull
-  private List<String> separateSingleWords(BaseTextStructure data) {
-    return data.getChildNodes().stream().flatMap(p -> p.getChildNodes().stream())
-        .flatMap(s -> s.getChildNodes().stream()).map(
-            w -> w.toString().replaceAll("([.,?!]\\B)|(\\(|\\))|(\\A-\\Z)|“|”", "")
-                .toLowerCase(Locale.ROOT)).filter(x -> x.matches("[^.:?!=]+"))
+  private List<String> separateSingleWords(BaseTextStructure textStructure) {
+    return textStructure.getChildNodes().stream()
+        .flatMap(paragraphStructure -> paragraphStructure.getChildNodes().stream())
+        .flatMap(sentenceStructure -> sentenceStructure.getChildNodes().stream()).map(
+            wordStructure -> wordStructure.toString().replaceAll(NOT_A_LETTER_SYMBOL, "")
+                .toLowerCase(Locale.ROOT))
+        .filter(wordString -> wordString.matches(EXCLUDE_AN_EXPRESSION_SYMBOL))
         .collect(Collectors.toList());
   }
 }

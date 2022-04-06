@@ -8,7 +8,7 @@ public class BitwiseXor implements Command {
 
   @Override
   public String calculate(Context context) {
-    Expression leftShiftExpr = (cont) -> String.valueOf(
+    Expression leftShiftExpr = cont -> String.valueOf(
         Integer.parseInt(cont.getLeftOperand()) ^ Integer.parseInt(cont.getRightOperand()));
     return leftShiftExpr.interpret(context);
   }

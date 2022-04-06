@@ -12,11 +12,11 @@ public class InvalidSentenceFromParagraphRemover extends AbstractUpdater {
   }
 
   @Override
-  public BaseTextStructure doSomething(BaseTextStructure paragraph) {
+  public BaseTextStructure doSomething(BaseTextStructure paragraphStructure) {
 
-    paragraph.setChildNodes(paragraph.getChildNodes().stream()
-        .filter(sent -> sent.getChildNodes().size() >= minWordQuantity)
+    paragraphStructure.setChildNodes(paragraphStructure.getChildNodes().stream()
+        .filter(sentenceStructure -> sentenceStructure.getChildNodes().size() >= minWordQuantity)
         .collect(Collectors.toList()));
-    return paragraph;
+    return paragraphStructure;
   }
 }

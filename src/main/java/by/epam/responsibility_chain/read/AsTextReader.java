@@ -9,8 +9,7 @@ public class AsTextReader extends AbstractReader {
     StringBuilder textBuilder = new StringBuilder();
 
     for (int i = 0; i < textStructure.getChildNodes().size(); ) {
-      if (textStructure.getChildNodes().get(i).getChildNodes().isEmpty()) {
-        textStructure.getChildNodes().remove(i);
+      if (removeEmptyChildNode(textStructure, i)) {
         continue;
       }
       textBuilder.append(nextDoSomething(textStructure.getChildNodes().get(i)));
@@ -18,5 +17,13 @@ public class AsTextReader extends AbstractReader {
     }
 
     return textBuilder.toString();
+  }
+
+  private boolean removeEmptyChildNode(BaseTextStructure textStructure, int i) {
+    if (textStructure.getChildNodes().get(i).getChildNodes().isEmpty()) {
+      textStructure.getChildNodes().remove(i);
+      return true;
+    }
+    return false;
   }
 }

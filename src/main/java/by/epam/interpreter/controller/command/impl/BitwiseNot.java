@@ -8,7 +8,7 @@ public class BitwiseNot implements Command {
 
   @Override
   public String calculate(Context context) {
-    Expression bitwiseNotExpr = (cont) -> String.valueOf(~Integer.parseInt(cont.getRightOperand()));
+    Expression bitwiseNotExpr = cont -> String.valueOf(~Integer.parseInt(cont.getRightOperand()));
     return bitwiseNotExpr.interpret(context);
   }
 }

@@ -5,21 +5,20 @@ import java.util.Comparator;
 
 public class LongestWordSentenceFinder extends AbstractReader {
 
-
   // TODO: 05.04.2022  create isEmpty or isPresent validation for optional type
 
   @Override
-  public String doSomething(BaseTextStructure data) {
+  public String doSomething(BaseTextStructure textStructure) {
     Comparator<BaseTextStructure> sentenceComparator = (sentence, otherSentence) ->
-        sentence.getChildNodes().stream().mapToInt(w -> w.getChildNodes().size()).max().getAsInt()
-            - otherSentence.getChildNodes().stream().mapToInt(w -> w.getChildNodes().size()).max()
-            .getAsInt();
+        sentence.getChildNodes().stream().mapToInt(wordNumber -> wordNumber.getChildNodes().size())
+            .max().getAsInt() - otherSentence.getChildNodes().stream()
+            .mapToInt(wordNumber -> wordNumber.getChildNodes().size()).max().getAsInt();
 
-    return nextDoSomething(data.getChildNodes().stream().flatMap(p -> p.getChildNodes().stream())
+    return nextDoSomething(textStructure.getChildNodes().stream().flatMap(
+            paragraphStructure -> paragraphStructure.getChildNodes().stream())
         .max(sentenceComparator).get());
   }
 }
-
 
 //public class MostChildrenQuantityFinder extends AbstractUpdater {
 //
@@ -41,7 +40,6 @@ public class LongestWordSentenceFinder extends AbstractReader {
 //    return nodeWithHighestQuantityOfChildNodes;
 //  }
 //}
-
 
 //public class SentenceWithLongestWordFinder extends AbstractUpdater {
 //

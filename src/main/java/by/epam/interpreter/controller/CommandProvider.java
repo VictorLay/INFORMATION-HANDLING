@@ -24,7 +24,6 @@ public final class CommandProvider {
     repository.put(Operators.BITWISE_AND, new BitwiseAnd());
     repository.put(Operators.BITWISE_OR, new BitwiseOr());
     repository.put(Operators.BITWISE_XOR, new BitwiseXor());
-
   }
 
   Command getOperationActionByOperator(String operator) {

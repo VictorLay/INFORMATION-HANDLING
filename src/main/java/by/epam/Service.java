@@ -14,6 +14,7 @@ import by.epam.responsibility_chain.read.AsSentenceReader;
 import by.epam.responsibility_chain.read.AsTextReader;
 import by.epam.responsibility_chain.read.AsWordReader;
 import by.epam.responsibility_chain.read.ConsonantLettersCounter;
+import by.epam.responsibility_chain.read.LongestWordSentenceFinder;
 import by.epam.responsibility_chain.read.ParagraphsSorter;
 import by.epam.responsibility_chain.read.UniqueWordsCounter;
 import by.epam.responsibility_chain.read.VowelsLettersCounter;
@@ -41,7 +42,7 @@ public class Service {
 
   public String findSentenceWithLongerWord(BaseTextStructure textStructure) {
     server.removeAll();
-    server.setAbstractReader(new ParagraphsSorter()).bindNextLink(new AsParagraphReader())
+    server.setAbstractReader(new LongestWordSentenceFinder()).bindNextLink(new AsParagraphReader())
         .bindNextLink(new AsSentenceReader()).bindNextLink(new AsWordReader())
         .bindNextLink(new AsLetterReader());
     return server.useReaderChain(textStructure);

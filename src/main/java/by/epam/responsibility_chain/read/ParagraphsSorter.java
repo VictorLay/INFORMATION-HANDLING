@@ -7,17 +7,16 @@ import java.util.stream.Collectors;
 public class ParagraphsSorter extends AbstractReader {
 
   @Override
-  public String doSomething(BaseTextStructure dataTxt) {
-    return dataTxt.getChildNodes().stream().sorted(new NodeComparator())
-        .map(x -> nextDoSomething(x)).collect(Collectors.joining());
+  public String doSomething(BaseTextStructure textStructure) {
+    return textStructure.getChildNodes().stream().sorted(new NodeComparator())
+        .map(this::nextDoSomething).collect(Collectors.joining());
   }
 
   private static final class NodeComparator implements Comparator<BaseTextStructure> {
 
     @Override
-    public int compare(BaseTextStructure structure, BaseTextStructure otherStructure) {
-
-      return otherStructure.getChildNodes().size() - structure.getChildNodes().size();
+    public int compare(BaseTextStructure paragraph, BaseTextStructure otherParagraph) {
+      return otherParagraph.getChildNodes().size() - paragraph.getChildNodes().size();
     }
   }
 }
