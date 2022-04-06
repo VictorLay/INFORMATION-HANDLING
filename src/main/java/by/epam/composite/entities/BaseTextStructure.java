@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class BaseTextStructure implements Comparable{
+public abstract class BaseTextStructure implements Comparable<BaseTextStructure> {
 
   private BaseTextStructure fatherNode;
   private List<BaseTextStructure> childNodes;
@@ -44,7 +44,28 @@ public abstract class BaseTextStructure implements Comparable{
   }
 
   @Override
-  public int compareTo(@NotNull Object otherStructure) {
-    return this.childNodes.size() - ((BaseTextStructure) otherStructure).childNodes.size();
+  public int compareTo(@NotNull BaseTextStructure otherStructure) {
+    return this.childNodes.size() - otherStructure.childNodes.size();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    BaseTextStructure other = (BaseTextStructure) obj;
+    return childNodes == other.getChildNodes() && fatherNode == other.getFatherNode()
+        && nodeObject == other.getNodeObject();
+  }
+
+  @Override
+  public int hashCode() {
+    return super.hashCode();
   }
 }
