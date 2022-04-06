@@ -15,12 +15,11 @@ public abstract class AbstractUpdater {
 
   public abstract BaseTextStructure doSomething(BaseTextStructure dataTxt);
 
-  public BaseTextStructure nextDoSomething(BaseTextStructure dataTxt) {
+  public BaseTextStructure nextDoSomething(BaseTextStructure dataTxt) throws Exception {
     if (next == null) {
       Logger log = LogManager.getLogger();
       log.error("The error is possible. The method 'nextDoSomething' return the null value");
-      return null;
-      // todo replace null to another value
+      throw new Exception("Attempt to calling unidentified next-chain-element");
     }
     return next.doSomething(dataTxt);
   }
