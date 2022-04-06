@@ -1,4 +1,4 @@
-package by.epam.responsibility_chain.workchain;
+package by.epam.responsibility_chain.update;
 
 import by.epam.composite.entities.BaseTextStructure;
 import org.apache.logging.log4j.LogManager;

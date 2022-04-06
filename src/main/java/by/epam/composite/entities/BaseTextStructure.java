@@ -2,8 +2,9 @@ package by.epam.composite.entities;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
-public abstract class BaseTextStructure {
+public abstract class BaseTextStructure implements Comparable{
 
   private BaseTextStructure fatherNode;
   private List<BaseTextStructure> childNodes;
@@ -40,5 +41,10 @@ public abstract class BaseTextStructure {
 
   public void setChildNodes(List<BaseTextStructure> childNodes) {
     this.childNodes = childNodes;
+  }
+
+  @Override
+  public int compareTo(@NotNull Object otherStructure) {
+    return this.childNodes.size() - ((BaseTextStructure) otherStructure).childNodes.size();
   }
 }

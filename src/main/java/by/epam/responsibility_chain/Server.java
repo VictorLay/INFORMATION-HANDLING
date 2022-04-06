@@ -22,7 +22,7 @@ public class Server {
     return this.abstractReader;
   }
 
-  public AbstractUpdater setAbstractWorker(AbstractUpdater abstractUpdater) {
+  public AbstractUpdater setAbstractUpdater(AbstractUpdater abstractUpdater) {
     this.abstractUpdater = abstractUpdater;
     return this.abstractUpdater;
   }
