@@ -11,13 +11,11 @@ public class UniqueWordsCounter extends AbstractReader {
 
   @Override
   public String doSomething(BaseTextStructure data) {
-    List<String> words = separateSingleWords(data);
     StringBuilder countedWordsStringResponse = new StringBuilder();
 
-    for (String countedWord : countUniqueWordsInList(words)){
+    for (String countedWord : countUniqueWordsInList(separateSingleWords(data))){
       countedWordsStringResponse.append(countedWord);
     }
-
     return countedWordsStringResponse.toString();
   }
 
