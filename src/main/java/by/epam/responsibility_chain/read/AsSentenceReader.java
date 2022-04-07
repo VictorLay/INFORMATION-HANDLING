@@ -5,10 +5,10 @@ import by.epam.composite.entities.BaseTextStructure;
 public class AsSentenceReader extends AbstractReader {
 
   @Override
-  public String doSomething(BaseTextStructure sentenceparagraphStructure) {
+  public String doSomething(BaseTextStructure sentenceStructure) {
     StringBuilder sentenceBuilder = new StringBuilder();
 
-    for (BaseTextStructure wordStructure : sentenceparagraphStructure.getChildNodes()) {
+    for (BaseTextStructure wordStructure : sentenceStructure.getChildNodes()) {
       sentenceBuilder.append(nextDoSomething(wordStructure));
     }
 

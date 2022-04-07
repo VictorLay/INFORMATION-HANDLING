@@ -8,7 +8,7 @@ import java.util.List;
 
 public class TextCreator extends AbstractCreator {
 
-  private static final String PARAGRAPH_DELIMITER = "\t";
+  private static final String PARAGRAPH_DELIMITER = "\t|(\s){4}";
 
   @Override
   public BaseTextStructure doSomething(String textData) {

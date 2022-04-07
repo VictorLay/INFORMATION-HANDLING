@@ -31,7 +31,7 @@ public class Service {
     server = new Server();
   }
 
-  public String sortParagraphBySentenceQuantity(BaseTextStructure textStructure) {
+  public String sortParagraphsBySentencesQuantity(BaseTextStructure textStructure) {
     server.removeAll();
     server.setAbstractReader(new ParagraphsSorter()).bindNextLink(new AsParagraphReader())
         .bindNextLink(new AsSentenceReader()).bindNextLink(new AsWordReader())
@@ -42,9 +42,8 @@ public class Service {
 
   public String findSentenceWithLongerWord(BaseTextStructure textStructure) {
     server.removeAll();
-    server.setAbstractReader(new LongestWordSentenceFinder()).bindNextLink(new AsParagraphReader())
-        .bindNextLink(new AsSentenceReader()).bindNextLink(new AsWordReader())
-        .bindNextLink(new AsLetterReader());
+    server.setAbstractReader(new LongestWordSentenceFinder()).bindNextLink(new AsSentenceReader())
+        .bindNextLink(new AsWordReader()).bindNextLink(new AsLetterReader());
     return server.useReaderChain(textStructure);
   }
 
